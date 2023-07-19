@@ -1146,5 +1146,3 @@ const firstNames = [
   const mySecret = `supersecret`;
 
   module.exports = {firstNames, lastNames, animalNames, universities, colors, countries}
-
-  console.log (data.countries.country)
