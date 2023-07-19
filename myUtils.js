@@ -11,7 +11,7 @@ const generateRandom = (array, num) => {
         }
         return `arrayList.toString()`;
       } else {
-        return `${num} is not a valid parameter`;
+        return `${num} is an invalid parameter`;
       }
     } else {
       return `${array} is not a valid array`;

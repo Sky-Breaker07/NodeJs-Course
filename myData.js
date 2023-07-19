@@ -1057,6 +1057,7 @@ const firstNames = [
   ];
 
   const universities = [
+    "Joseph Ayodele Babalola University",
     "Harvard University",
     "Massachusetts Institute of Technology (MIT)",
     "Stanford University",
