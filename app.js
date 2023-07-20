@@ -2,7 +2,7 @@ const utils = require("./myUtils");
 const data = require("./myData");
 const os = require("os");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs").promises;
 const http = require("http");
 const util = require("util");
 
@@ -137,14 +137,14 @@ const util = require("util");
 //   });
 // };
 
-const readFilePromise = util.promisify(fs.readFile);
-const writeFilePromise = util.promisify(fs.writeFile);
-const appendFilePromise = util.promisify(fs.appendFile);
+// const readFilePromise = util.promisify(fs.readFile);
+// const writeFilePromise = util.promisify(fs.writeFile);
+// const appendFilePromise = util.promisify(fs.appendFile);
 
 const start = async () => {
   try {
-    const second = await readFilePromise("./content/second.txt", "utf-8");
-    const third = await readFilePromise("./content/third.txt", "utf-8");
+    const second = await fs.readFile("./content/second.txt", "utf-8");
+    const third = await fs.readFile("./content/third.txt", "utf-8");
     console.log(third);
     console.log(second);
     const dataToWrite = [];
@@ -156,9 +156,9 @@ const start = async () => {
       dataToWrite.push(name);
     }
     await Promise.all([
-      appendFilePromise("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
-      appendFilePromise("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
-      appendFilePromise("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
+      fs.appendFile("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
+      fs.appendFile("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
+      fs.appendFile("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
     ]);
   } catch (err) {
     console.log(err);
