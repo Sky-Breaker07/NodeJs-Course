@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs").promises;
 const http = require("http");
 const util = require("util");
+const EventEmitter = require('events')
 
 // setInterval(() => {
 //     console.log(`Hello there. My name is ${utils.generateRandom(data.firstNames, 1)} ${utils.generateRandom(data.lastNames, 1)}. I live in ${(utils.generateRandom(data.countries, 1)).country}. I am a student of ${utils.generateRandom(data.universities, 1)}. My favorite animals include${utils.generateRandom(data.animalNames, 3)} and ${utils.generateRandom(data.animalNames, 1)}. My favorite colors include${utils.generateRandom(data.colors, 3)} and ${utils.generateRandom(data.colors, 1)}`)
@@ -141,29 +142,46 @@ const util = require("util");
 // const writeFilePromise = util.promisify(fs.writeFile);
 // const appendFilePromise = util.promisify(fs.appendFile);
 
-const start = async () => {
-  try {
-    const second = await fs.readFile("./content/second.txt", "utf-8");
-    const third = await fs.readFile("./content/third.txt", "utf-8");
-    console.log(third);
-    console.log(second);
-    const dataToWrite = [];
-    for (let i = 0; i < 10000; i++) {
-      const name = `My name is ${utils.generateRandom(
-        data.firstNames,
-        1
-      )} ${utils.generateRandom(data.lastNames, 1)}`;
-      dataToWrite.push(name);
-    }
-    await Promise.all([
-      fs.appendFile("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
-      fs.appendFile("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
-      fs.appendFile("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
-    ]);
-  } catch (err) {
-    console.log(err);
-  }
-};
-start();
-console.log("Will I run first?");
+// const start = async () => {
+//   try {
+//     const second = await fs.readFile("./content/second.txt", "utf-8");
+//     const third = await fs.readFile("./content/third.txt", "utf-8");
+//     console.log(third);
+//     console.log(second);
+//     const dataToWrite = [];
+//     for (let i = 0; i < 50000; i++) {
+//       const name = `My name is ${utils.generateRandom(
+//         data.firstNames,
+//         1
+//       )} ${utils.generateRandom(data.lastNames, 1)}`;
+//       dataToWrite.push(name);
+//     }
+//     await Promise.all([
+//       fs.appendFile("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
+//       fs.appendFile("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
+//       fs.appendFile("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
+//     ]);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// start();
+// console.log("Will I run first?");
 // getText('./content/first.txt').then(info => console.log(info)).catch(err=>console.log(err))
+
+// const customEmitter = new EventEmitter()
+// customEmitter.on('response', (user, id)=>{
+//   console.log(`data received by the user ${user} with id: ${id}`)
+//   console.log('another logic here')
+// })
+
+// customEmitter.emit('response', 'Peter', 9165)
+
+// server = http.createServer()
+
+// server.on('request', (req, res)=>{
+//   res.end("Welcome to this page")
+// })
+
+// server.listen(5000)
+
