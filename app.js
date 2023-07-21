@@ -2,10 +2,11 @@ const utils = require("./myUtils");
 const data = require("./myData");
 const os = require("os");
 const path = require("path");
-const fs = require("fs").promises;
+const fsp = require("fs").promises;
+const fs = require('fs');
 const http = require("http");
 const util = require("util");
-const EventEmitter = require('events')
+const EventEmitter = require('events');
 
 // setInterval(() => {
 //     console.log(`Hello there. My name is ${utils.generateRandom(data.firstNames, 1)} ${utils.generateRandom(data.lastNames, 1)}. I live in ${(utils.generateRandom(data.countries, 1)).country}. I am a student of ${utils.generateRandom(data.universities, 1)}. My favorite animals include${utils.generateRandom(data.animalNames, 3)} and ${utils.generateRandom(data.animalNames, 1)}. My favorite colors include${utils.generateRandom(data.colors, 3)} and ${utils.generateRandom(data.colors, 1)}`)
@@ -16,12 +17,12 @@ const EventEmitter = require('events')
 
 // console.log(path.extname('app.js'))
 
-// const first = fs.readFileSync("./content/text1.txt", "utf-8");
+// const first = fsp.readFileSync("./content/text1.txt", "utf-8");
 
-// const second = fs.readFileSync("./content/text2.txt", "utf8");
+// const second = fsp.readFileSync("./content/text2.txt", "utf8");
 
 // setInterval(() => {
-//   fs.appendFileSync(
+//   fsp.appendFileSync(
 //     "./content/text3.txt",
 //     `Hello there. My name is ${utils.generateRandom(
 //       data.firstNames,
@@ -44,7 +45,7 @@ const EventEmitter = require('events')
 //   );
 // }, 2000);
 
-// fs.readFile('./content/text4.txt', 'utf8', (err,result)=>{
+// fsp.readFile('./content/text4.txt', 'utf8', (err,result)=>{
 //     if(err) {
 //         console.log(err)
 //         return
@@ -66,11 +67,11 @@ const EventEmitter = require('events')
 //       }
 //     })
 
-// const { readFile, writeFile } = require('fs')
+// const { readFile, writeFile } = require('fsp')
 
 // console.log('started a first task')
 // // CHECK FILE PATH!!!!
-// fs.readFile('./content/first.txt', 'utf8', (err, result) => {
+// fsp.readFile('./content/first.txt', 'utf8', (err, result) => {
 //   if (err) {
 //     console.log(err)
 //     return
@@ -128,7 +129,7 @@ const EventEmitter = require('events')
 
 // const getText = (path) => {
 //   return new Promise((resolve, reject) => {
-//     fs.readFile(path, "utf-8", (err, info) => {
+//     fsp.readFile(path, "utf-8", (err, info) => {
 //       if (err) {
 //         reject(err);
 //       } else {
@@ -138,18 +139,18 @@ const EventEmitter = require('events')
 //   });
 // };
 
-// const readFilePromise = util.promisify(fs.readFile);
-// const writeFilePromise = util.promisify(fs.writeFile);
-// const appendFilePromise = util.promisify(fs.appendFile);
+// const readFilePromise = util.promisify(fsp.readFile);
+// const writeFilePromise = util.promisify(fsp.writeFile);
+// const appendFilePromise = util.promisify(fsp.appendFile);
 
 // const start = async () => {
 //   try {
-//     const second = await fs.readFile("./content/second.txt", "utf-8");
-//     const third = await fs.readFile("./content/third.txt", "utf-8");
+//     const second = await fsp.readFile("./content/second.txt", "utf-8");
+//     const third = await fsp.readFile("./content/third.txt", "utf-8");
 //     console.log(third);
 //     console.log(second);
 //     const dataToWrite = [];
-//     for (let i = 0; i < 50000; i++) {
+//     for (let i = 0; i < 100000; i++) {
 //       const name = `My name is ${utils.generateRandom(
 //         data.firstNames,
 //         1
@@ -157,9 +158,9 @@ const EventEmitter = require('events')
 //       dataToWrite.push(name);
 //     }
 //     await Promise.all([
-//       fs.appendFile("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
-//       fs.appendFile("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
-//       fs.appendFile("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
+//       fsp.appendFile("./content/seventh.txt", dataToWrite.join("\n") + "\n"),
+//       fsp.appendFile("./content/eighth.txt", dataToWrite.join("\n") + "\n"),
+//       fsp.appendFile("./content/ninth.txt", dataToWrite.join("\n") + "\n"),
 //     ]);
 //   } catch (err) {
 //     console.log(err);
@@ -185,3 +186,26 @@ const EventEmitter = require('events')
 
 // server.listen(5000)
 
+// const stream = fs.createReadStream('../content/seventh.txt', {highWaterMark: 102400, encoding: 'utf-8'})
+
+// stream.on('data', (result)=>{
+//     console.log(result)
+// })
+// stream.on('error', (err)=>{
+//     console.log(err)
+// })
+
+// http.createServer(function (req, res) {
+    // const text1 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+    // const text2 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+    // const text3 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+    // const text = text1+text2+text3;
+    // res.end(text)
+//     const fileStream = fs.createReadStream('./content/seventh.txt', 'utf-8');
+//     fileStream.on('open', ()=>{
+//         fileStream.pipe(res)
+//     })
+//     fileStream.on('error', (err)=>{
+//         res.end(err)
+//     })
+// }).listen(5000)
