@@ -209,3 +209,11 @@ const EventEmitter = require('events');
 //         res.end(err)
 //     })
 // }).listen(5000)
+
+// const server =  http.createServer((req, res)=>{
+//     res.writeHead(200, {'content-type':'text/html'})
+//     res.write('<h1 style="text-decoration: underline">Home Page</h1>')
+//     res.end()
+// })
+
+// server.listen(5000)
