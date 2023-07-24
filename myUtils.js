@@ -17,5 +17,31 @@ const generateRandom = (array, num) => {
       return `${array} is not a valid array`;
     }
   };
+
+  function getCircularReplacer() {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  }
   
-  module.exports = {generateRandom}
+const logger = (req,res,next) => {
+  const method = req.method
+  const url = req.url
+  const time = new Date().getFullYear()
+  console.log(method, url, time)
+  next()
+}
+
+const authorize = (res,req,next)=>{
+  console.log('authorize')
+  next()
+}
+
+  module.exports = {generateRandom, getCircularReplacer, logger, authorize}

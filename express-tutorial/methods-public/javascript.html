@@ -49,11 +49,12 @@
       const fetchPeople = async () => {
         try {
           const { data } = await axios.get('/api/people')
-
           const people = data.data.map((person) => {
             return `<h5>${person.name}</h5>`
           })
           result.innerHTML = people.join('')
+          try {console.log(person)}catch(err){console.log(err)}
+          
         } catch (error) {
           result.innerHTML = `<div class="alert alert-danger">Can't Fetch Data</div>`
         }

@@ -3,12 +3,16 @@ const data = require("./myData");
 const os = require("os");
 const path = require("path");
 const fsp = require("fs").promises;
-const fs = require('fs');
+const fs = require("fs");
 const http = require("http");
 const util = require("util");
-const EventEmitter = require('events');
-const express = require('express');
-
+const EventEmitter = require("events");
+const express = require("express");
+const { error } = require("console");
+const morgan = require("morgan");
+const app = express();
+const people = require('./express-tutorial/routes/people.js')
+const auth = require('./express-tutorial/routes/auth.js')
 // setInterval(() => {
 //     console.log(`Hello there. My name is ${utils.generateRandom(data.firstNames, 1)} ${utils.generateRandom(data.lastNames, 1)}. I live in ${(utils.generateRandom(data.countries, 1)).country}. I am a student of ${utils.generateRandom(data.universities, 1)}. My favorite animals include${utils.generateRandom(data.animalNames, 3)} and ${utils.generateRandom(data.animalNames, 1)}. My favorite colors include${utils.generateRandom(data.colors, 3)} and ${utils.generateRandom(data.colors, 1)}`)
 // }, 1000);
@@ -197,11 +201,11 @@ const express = require('express');
 // })
 
 // http.createServer(function (req, res) {
-    // const text1 = fs.readFileSync('./content/seventh.txt', 'utf-8')
-    // const text2 = fs.readFileSync('./content/seventh.txt', 'utf-8')
-    // const text3 = fs.readFileSync('./content/seventh.txt', 'utf-8')
-    // const text = text1+text2+text3;
-    // res.end(text)
+// const text1 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+// const text2 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+// const text3 = fs.readFileSync('./content/seventh.txt', 'utf-8')
+// const text = text1+text2+text3;
+// res.end(text)
 //     const fileStream = fs.createReadStream('./content/seventh.txt', 'utf-8');
 //     fileStream.on('open', ()=>{
 //         fileStream.pipe(res)
@@ -211,64 +215,186 @@ const express = require('express');
 //     })
 // }).listen(5000)
 
-// const server =  http.createServer((req, res)=>{
-//     res.writeHead(200, {'content-type':'text/html'})
-//     res.write('<h1 style="text-decoration: underline">Home Page</h1>')
+// const { Configuration, OpenAIApi } = require("openai");
+// const readlineSync = require("readline-sync");
+// require("dotenv").config();
+
+// (async () => {
+//   const configuration = new Configuration({
+//     apiKey: process.env.OPENAI_API_KEY,
+//   });
+//   const openai = new OpenAIApi(configuration);
+
+//   const history = [];
+
+//   while (true) {
+//     const user_input = readlineSync.question("Your input: ");
+
+//     const messages = [];
+//     for (const [input_text, completion_text] of history) {
+//       messages.push({ role: "user", content: input_text });
+//       messages.push({ role: "assistant", content: completion_text });
+//     }
+
+//     messages.push({ role: "user", content: user_input });
+
+//     try {
+//       const completion = await openai.createChatCompletion({
+//         model: "gpt-3.5-turbo",
+//         messages: messages,
+//       });
+
+//       const completion_text = completion.data.choices[0].message.content;
+//       console.log(completion_text);
+
+//       history.push([user_input, completion_text]);
+
+//       const user_input_again = readlineSync.question(
+//         "\nWould you like to continue the conversation? (Y/N)"
+//       );
+//       if (user_input_again.toUpperCase() === "N") {
+//         return;
+//       } else if (user_input_again.toUpperCase() !== "Y") {
+//         console.log("Invalid input. Please enter 'Y' or 'N'.");
+//         return;
+//       }
+//     } catch (error) {
+//       if (error.response) {
+//         console.log(error.response.status);
+//         console.log(error.response.data);
+//       } else {
+//         console.log(error.message);
+//       }
+//     }
+//   }
+// })();
+
+// const homePage = fs.readFileSync('./express-tutorial/navbar-app/index.html')
+// const homeStyle = fs.readFileSync('./express-tutorial/navbar-app/styles.css')
+// const homeLogo = fs.readFileSync('./express-tutorial/navbar-app/logo.svg')
+// const homeLogic = fs.readFileSync('./express-tutorial/navbar-app/browser-app.js')
+// const server = http.createServer((req, res) => {
+//   if (req.url === "/" || req.url === "/home") {
+//     res.writeHead(200, { "content-type": "text/html" });
+//     res.write(homePage);
+//     res.end();}
+//   else if (req.url === "/styles.css") {
+//     res.writeHead(200, { "content-type": "text/css" });
+//     res.write(homeStyle);
+//     res.end()}
+//   else if (req.url === "/logo.svg") {
+//     res.writeHead(200, { "content-type": "image/svg+xml" });
+//     res.write(homeLogo);
+//     res.end()}
+//   else if (req.url === "/browser-app.js") {
+//     res.writeHead(200, { "content-type": "text/javascript" });
+//     res.write(homeLogic);
 //     res.end()
+//   } else if (req.url === '/about') {
+//     res.writeHead(200, { "content-type": "text/html" });
+//     res.write('<h1 style="text-decoration: underline">About Page</h1>');
+//     res.end();
+//   } else {
+//     res.writeHead(404, { "content-type": "text/html" });
+//     res.write(`<h1 style="text-decoration: underline">Page Not Found</h1><p><a href='/'>Back to Home</a></p>`);
+//     res.end();
+//   }
+
+// reqJSON = JSON.stringify(req, utils.getCircularReplacer())
+// const contentWithParagraphs = `<p>${reqJSON.replace(/\n/g, '</p><p>')}</p>`;
+
+// fs.writeFile('./content/requestobject.json', `${reqJSON}`, (err, result)=>{
+//   if(err){{
+//     console.log(err)
+//   }}
+//   console.log('successful!')
+//   console.log(result)
+// })
+// });
+
+// server.listen(5000);
+// app.use(express.static('./public'))
+// app.get(['/', '/home'], (req, res)=>[
+//   res.sendFile(path.resolve(__dirname, './express-tutorial/navbar-app/index.html'))
+// ])
+
+// app.get('/about', (req, res)=>[
+//   res.status(200).send(`About Page`)
+// ])
+
+// app.all('*',(req, res)=>{
+//   res.status(404).send(`<h1>Page not found</h1>`)
 // })
 
-// server.listen(5000)
+// app.get('/', (req, res)=>{
+//   res.send(`<h1>Home Page</h1><a href="/api/products">Products</a>`)
+// })
 
-const { Configuration, OpenAIApi } = require("openai");
-const readlineSync = require("readline-sync");
-require("dotenv").config();
+// app.get('/api/products', (req, res)=>{
+//   const newProducts = jsonData.products.map((product)=>{
+//     const {id, name, image} = product;
+//     return {id,name,image}
+//   })
+//   res.json(newProducts)
+// })
 
-(async () => {
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
+// app.get(`/api/products/:productID`, (req, res)=>{
+//   const singleProduct = jsonData.products.find((product)=>
+//     product.id === Number(req.params.productID)
+//   )
+//   if(!singleProduct){
+//     return res.status(404).send(`<h1>Product does not exist!</h1> <a href='/api/products'>Back to Products Page</a> <a href='/'>Back to Home Page</a>`)
+//   }
+//   res.json(singleProduct)
+// })
 
-  const history = [];
+// app.get('/api/v1/query', (req, res)=>{
+//   //  console.log(req.query)
+//    const {search, limit} = req.query
+//    let sortedProducts = [...jsonData.products]
+//    if(search) {
+//     sortedProducts = sortedProducts.filter((product)=>{
+//       return product.name.startsWith(search)
+//     })
+//    }
 
-  while (true) {
-    const user_input = readlineSync.question("Your input: ");
+//    if(limit) {
+//     sortedProducts = sortedProducts.slice(0,Number(limit))
+//    }
 
-    const messages = [];
-    for (const [input_text, completion_text] of history) {
-      messages.push({ role: "user", content: input_text });
-      messages.push({ role: "assistant", content: completion_text });
-    }
+//    if(sortedProducts.length===0){
+//     res.type('.html')
+//     res.status(200).send(`<h1>Nothing is found</h1><a href='/api/v1/query'>Return</a>`)
+//      return
+//    }
 
-    messages.push({ role: "user", content: user_input });
+//    res.status(200).json(sortedProducts)
 
-    try {
-      const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: messages,
-      });
+// })
 
-      const completion_text = completion.data.choices[0].message.content;
-      console.log(completion_text);
+// app.use([utils.logger, utils.authorize, morgan('tiny')])
 
-      history.push([user_input, completion_text]);
+// app.get('/', (req,res)=>{
+//   res.send(`<h1>Home</h1>`)
+// })
+// app.get('/about', (req,res)=>{
+//   res.send(`<h1>About</h1>`)
+// })
+// app.get('/products', (req,res)=>{
+//   res.send(`<h1>Products</h1>`)
+// })
+// app.get('/items', (req,res)=>{
+//   res.send(`<h1>Items</h1>`)
+// })
+app.use(
+  [express.static("./express-tutorial/methods-public")],
+  express.urlencoded({ extended: false })
+);
+app.use(express.json());
+app.use('/api/people', people)
+app.use('/login', auth)
 
-      const user_input_again = readlineSync.question(
-        "\nWould you like to continue the conversation? (Y/N)"
-      );
-      if (user_input_again.toUpperCase() === "N") {
-        return;
-      } else if (user_input_again.toUpperCase() !== "Y") {
-        console.log("Invalid input. Please enter 'Y' or 'N'.");
-        return;
-      }
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.status);
-        console.log(error.response.data);
-      } else {
-        console.log(error.message);
-      }
-    }
-  }
-})();
+app.listen(5000, () => {
+  console.log("Server is listening on port 5000...");
+});
+
